@@ -1,0 +1,158 @@
+
+@media only screen and (max-width:240px) {
+
+}
+
+
+@media only screen and (min-width:241px) and (max-width:480px) {
+
+
+}
+
+@media only screen and (max-width:479px) {
+  
+
+}
+
+@media only screen and (min-width:481px) and (max-width:729px) {
+
+}
+
+
+@media only screen and (min-width:801px) and (max-width:990px) {
+
+}
+
+@media only screen and (max-width:800px) {
+
+}
+
+@media only screen and (min-width:768px) and (max-width:800px) {
+
+}
+
+@media screen and (max-width: 60em) {
+
+
+}
+
+@media only screen and  (max-width:990px) {
+  
+}
+
+@media only screen and (min-width:0px) and (max-width:767px) {
+ .site-idea-logo {
+  position: absolute;
+  top: -48px;
+  z-index: 999;
+} 
+.site-idea-logo img {
+  height: 45px;
+}  
+.toggle-menu-wrapper {
+  margin-top: 16px;
+  position: relative;
+  right: -2px;
+  top: 12px;
+}
+.slidingDiv {
+  width: 100%;
+  margin-left: -15px;
+}
+
+.slidingDiv ul {
+  display: inline-block;
+  float: none;
+  margin: 0;
+  padding-right:0;
+  width: 100%;
+}
+.left.dotted-spaced {
+  background-image: inherit;
+}
+.main-menu li {
+  margin: auto;
+}
+.query-search-form .form-group {
+  float: inherit;
+}
+.query-search-form {
+  margin: 0 auto;
+  text-align: center;
+  width: 100%;
+}
+.select-style {
+  background-position: 96% 50%;
+  border-radius: 10px;
+  margin: auto auto 20px;
+  overflow: hidden;
+  padding: 5px 0;
+  width: 90%;
+}
+.cus-field {
+  display: block;
+  height: 48px;
+  margin: auto;
+  padding: 6px 16px;
+  width: 90% !important;
+  border-radius: 10px;
+}
+.search-btn:hover, .search-btn {
+	background-image:none;
+	background-color:#fff;
+   border-radius: 10px;
+  border-style: solid solid solid none;
+  border-width: 1px 1px 1px 0;
+  height: 48px;
+  width: 90%;
+  position:relative;
+}
+.search-btn:hover, .search-btn::after {
+  color: #999;
+  content: "Search";
+  cursor: pointer;
+  font-size: 24px;
+  font-weight: 300;
+  text-align: center;
+}
+.select-style select {
+  width: 98%;
+}
+.hot-line {
+  text-align: center;
+}
+.sign-up {
+  margin-top: 10px;
+  text-align: center;
+}
+.st-profile-img{
+	margin:auto;
+	}
+.company-top-rating,
+.company-name-rating {
+  text-align: center;
+}
+.related-course-section{
+	height:auto;
+	}
+
+.advance-search-container {
+  width: 100%;
+}
+.dropdownTemplate,
+.advance_search_menu{
+	display:none !important;
+	}
+.counter ul li {
+  font-size: 20px;
+  line-height: 28px;
+}
+.footer_menu {
+  text-align: center;
+}
+.copy-right {
+  float: none;
+  margin-top: 10px;
+  text-align: center;
+}
+}

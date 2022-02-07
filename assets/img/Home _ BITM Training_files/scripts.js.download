@@ -1,0 +1,574 @@
+/*===Drop Down Menu===*/
+jQuery(document).ready(function () {
+    jQuery('.navigation').meanmenu();
+});
+/*===Top Fix Navi sticky-navigation===*/
+$(window).load(function () {
+    $(".navbar-wrapper").sticky({topSpacing: 0});
+});
+
+/*===animated===*/
+var wow = new WOW(
+        {
+            boxClass: 'wow', // animated element css class (default is wow)
+            animateClass: 'animated', // animation css class (default is animated)
+            offset: 0, // distance to the element when triggering the animation (default is 0)
+            mobile: false       // trigger animations on mobile devices (true is default)
+        }
+);
+wow.init();
+
+
+/*===Back to Top===*/
+
+$(window).scroll(function () {
+    if ($(this).scrollTop() > 100) {
+        $('.scrollup').fadeIn();
+    } else {
+        $('.scrollup').fadeOut();
+    }
+});
+
+$('.scrollup').click(function () {
+    $("html, body").animate({
+        scrollTop: 0
+    }, 600);
+    return false;
+
+});
+
+//advance-search-custom-btn
+jQuery(document).ready(function () {
+    jQuery("#advance-search-custom-btn").click(function () {
+        jQuery(".advance-search-custom-wrap").toggleClass("open");
+    });
+});
+
+//Star Rating
+jQuery(".my_rating").starRating({
+    totalStars: 5,
+    starSize: 17,
+    useGradient: false,
+    readOnly: true
+});
+
+//========================
+// masonry
+//========================
+jQuery(function () {
+    var $container = $('#container')
+    $container.imagesLoaded(function () {
+        $container.masonry({
+            itemSelector: '.box'
+        });
+
+        $container.infinitescroll({
+            navSelector: '#page-nav', // selector for the paged navigation
+            nextSelector: '#page-nav a', // selector for the NEXT link (to page 2)
+            itemSelector: '.box', // selector for all items you'll retrieve
+            loading: {
+                finishedMsg: '<span style=" color:#000;">No more pages to load.</span>',
+                msgText: '<span style=" color:#000;">Loading more posts</span>',
+                img: baseurl + 'assets/frontend/images/page_loader.gif'
+            }
+        },
+                // trigger Masonry as a callback
+                        function (newElements) {
+                            jQuery(".my_rating").starRating({
+                                totalStars: 5,
+                                starSize: 17,
+                                useGradient: false,
+                                readOnly: true
+                            });
+                            // hide new items while they are loading
+                            var $newElems = $(newElements).css({opacity: 0});
+                            // ensure that images load before adding to masonry layout
+                            $newElems.imagesLoaded(function () {
+                                // show elems now they're ready
+                                $newElems.animate({opacity: 1});
+                                $container.masonry('appended', $newElems, true);
+                            });
+                        }
+                );
+
+
+            });
+});
+
+//========================
+// Loader
+//========================
+function removeFromWishList(student_wish_list_id) {
+    $.ajax({
+        type: "POST",
+        url: baseurl + "ajax/remove_from_wishlist",
+        data: {student_wish_list_id: student_wish_list_id},
+        dataType: "json",
+        success: function (data) {
+            if (data.status == 1) {
+                $('#wishlistMsg').html('<div class="alert alert-success fade in">' + data.message + '</div>');
+                $('#wishlistMsg').show();
+                $('.add_remove').html(data.add_wish);
+                setTimeout(function () {
+                    $('#wishlistMsg').hide();
+                }, 2000);
+            } else {
+                $('#wishlistMsg').html('<div class="alert alert-danger fade in">' + data.message + '</div>');
+                $('#wishlistMsg').show();
+                setTimeout(function () {
+                    $('#wishlistMsg').hide();
+                }, 2000);
+            }
+        }
+    });
+}
+
+function addToWishList(company_id, course_id, batch_id) {
+    $.ajax({
+        type: "POST",
+        url: baseurl + "ajax/add_to_wishlist",
+        data: {company_id: company_id, course_id: course_id, batch_id: batch_id},
+        dataType: "json",
+        success: function (data) {
+            if (data.status == 1) {
+                $('#wishlistMsg').html('<div class="alert alert-success fade in">' + data.message + '</div>');
+                $('.add_remove').html(data.add_remove);
+                $('#wishlistMsg').show();
+                setTimeout(function () {
+                    $('#wishlistMsg').hide();
+                }, 2000);
+            } else {
+                $('#wishlistMsg').html('<div class="alert alert-danger fade in">' + data.message + '</div>');
+                $('#wishlistMsg').show();
+                setTimeout(function () {
+                    $('#wishlistMsg').hide();
+                }, 2000);
+            }
+        }
+    });
+}
+
+$(document).ready(function () {
+
+    //Multiple Select
+    $(function () {
+        $('.chosen-select').chosen();
+        $('.chosen-select-deselect').chosen({allow_single_deselect: true});
+    });
+
+    //Validate User Sign Up Form
+    $("#userSignUpForm").validate({
+        rules: {
+            full_name: "required",
+            email_address: {
+                required: true,
+                email: true
+            },
+            phone_no: "required",
+            gender: "required",
+            area_of_interest: "required",
+            address: "required",
+            password: {
+                required: true
+            },
+            repassword: {
+                required: true,
+                equalTo: '#password'
+            }
+        },
+        messages: {
+            full_name: "",
+            email_address: "",
+            phone_no: "",
+            gender: "",
+            area_of_interest: "",
+            address: "",
+            password: '',
+            repassword: ''
+        }
+    });
+
+    $("#profileUpdateForm").validate({
+        rules: {
+            first_name: "required",
+            last_name: "required",
+            phone_no: "required",
+            gender: "required",
+            area_of_interest: "required",
+            address: "required"
+        },
+        messages: {
+            first_name: "",
+            last_name: "",
+            phone_no: "",
+            gender: "",
+            area_of_interest: "",
+            address: ""
+        }
+    });
+
+    $('#complain-form').validate({
+        rules: {
+            name: "required",
+            email: "required",
+            phone: "required",
+            message: "required",
+            code: "required",
+        },
+        messages: {
+            name: "",
+            email: "",
+            phone: "",
+            message: "",
+            code: ""
+        }
+    });
+
+    $("#changePassForm").validate({
+        rules: {
+            current_password: {
+                required: true
+            },
+            new_password: {
+                required: true
+            },
+            con_password: {
+                required: true,
+                equalTo: '#new_password'
+            }
+        },
+        messages: {
+            current_password: '',
+            new_password: '',
+            con_password: ''
+        }
+    });
+
+    $("#ratingReview").validate({
+        rules: {
+            rating: 'required',
+            reviews: 'required'
+        },
+        messages: {
+            rating: '',
+            reviews: ''
+        }
+    });
+
+    $("#academicQualification").validate({
+        rules: {
+            passing_year: 'required',
+            duration: 'required',
+            degree_title: 'required'
+        },
+        messages: {
+            passing_year: '',
+            duration: '',
+            degree_title: ''
+        }
+    });
+
+    $("#userSignInForm").validate({
+        rules: {
+            sign_email: {
+                required: true,
+                email: true
+            },
+            sign_password: {
+                required: true
+            }
+        },
+        messages: {
+            sign_email: "",
+            sign_password: ''
+        }
+    });
+
+    $('.modalToggle').on('click', function () {
+        var return_url=$(this).data('url');
+        $('#returnurl').val($(this).data('url'));
+        
+        $("#register_url").attr("href", baseurl+"registration?return_url="+return_url);
+    });
+
+    $("#submitUserSignin").on('click', function () {
+        var email = $('#sign_email').val();
+        var password = $('#sign_password').val();
+        var returnurl = $('#returnurl').val();
+        $.ajax({
+            type: "POST",
+            url: baseurl + "ajax/login",
+            data: {email: email, password: password, returnurl: returnurl},
+            dataType: "json",
+            success: function (data) {
+                if (data.status == 1) {
+                    $('#form-inline-content').hide();
+                    $('.modal-header').hide();
+                    $('.modal-footer').hide();
+                    $('#submitResult').html('<div class="alert alert-success fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' + data.message + '</div>');
+
+                    setTimeout(function () {
+                        window.location.href = data.redirect_url;
+                    }, 1000);
+
+                } else {
+                    $('#submitResult').html('<div class="alert alert-danger fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' + data.message + '</div>');
+                }
+            }
+        });
+
+    })
+
+
+
+    //Review Course
+    $("#redeem").on('click', function () {
+        var redeem = $('#redeem').val();
+        var coupon_code = $('#coupon_code').val();
+        $.ajax({
+            type: "POST",
+            url: baseurl + "student/redeemCoupon",
+            data: {redeem: redeem, coupon_code: coupon_code},
+            dataType: "json",
+            success: function (response) {
+                if (response.status == 1) {
+                    $('#submitRedeem').html('<div class="text-success">' + response.message + '</div>');
+
+                    setTimeout(function () {
+                        $("#redeemtCoupon")[0].reset();
+
+                    }, 1000);
+
+                } else {
+                    $('#submitRedeem').html('<div class="text-danger">' + response.message + '</div>');
+                }
+            }
+        });
+
+    })
+
+    //Educational Info
+    $("#educationAdd").on('click', function () {
+        var education_level = $('#degree').val();
+        var degree_title = $('#degree_title').val();
+        var major_group = $('#major_group').val();
+        var instituteName = $('#instituteName').val();
+        var education_major = $('#education_major').val();
+        var specify_area = $('#specify_area').val();
+        var institute_name = $('#institute_name').val();
+        var spcinstitute = $('#spcinstitute').val();
+        var results = $('#results').val();
+        var cgpa = $('#cgpa').val();
+        var scale = $('#scale').val();
+        var marks = $('#marks').val();
+        var passing_year = $('#passing_year').val();
+        var duration = $('#duration').val();
+        var educationAdd = $('#educationAdd').val();
+        $.ajax({
+            type: "POST",
+            url: baseurl + "student/add_education",
+            data: {
+                education_level: education_level,
+                degree_title: degree_title,
+                major_group: major_group,
+                institute_name: institute_name,
+                education_major: education_major,
+                specify_area: specify_area,
+                instituteName: instituteName,
+                spcinstitute: spcinstitute,
+                results: results,
+                cgpa: cgpa,
+                scale: scale,
+                marks: marks,
+                passing_year: passing_year,
+                duration: duration,
+                educationAdd: educationAdd},
+            dataType: "json",
+            success: function (response) {
+                if (response.status == 1) {
+                    $('#form-inline-content').hide();
+                    $('#submitEducation').html('<div class="alert alert-success fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' + response.message + '</div>');
+
+                    setTimeout(function () {
+                        $("#academicQualification")[0].reset();
+                        $('#hide-form').modal('hide');
+                        window.location.href = response.redirect_url;
+
+                    }, 2000);
+
+                } else {
+                    $('#submitEducation').html('<div class="alert alert-danger fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' + response.message + '</div>');
+                }
+            }
+        });
+
+    })
+
+
+    $(document).ready(function ($) {
+        $('#email_address').keyup(function () {
+            $('#emailExist').remove();
+        });
+        $('#email_address').blur(function () {
+            $('#emailExist').remove();
+            var email = $('#email_address').val();
+            if (email) {
+                $.ajax({
+                    type: "POST",
+                    url: baseurl + "check/user/email",
+                    data: "email=" + email,
+                    success: function (msg) {
+                        if (msg == 'exit') {
+                            $('#email_address').after('<div id="emailExist"><label>&nbsp;</label><span style="color: red">Sorry, this email already exist.</span></div>');
+                        } else if (msg == 'new') {
+                            $('#emailExist').remove();
+                        }
+                    }
+                });
+            }
+        });
+    });
+
+    $(".see-more").click(function () {
+        $(".course-berief-details").addClass("intro");
+    });
+
+    $("img.userIcon").load(function () {
+        if ($(this).height() > 100) {
+            $(this).addClass("bigImg");
+        }
+    });
+
+    $("#results").change(function () {
+        if ($("#results option:selected").val() == "cgpa") {
+            $("#tab-first").removeClass("has-division");
+            $("#tab-first").addClass("has-cgpa");
+        } else if ($("#results option:selected").val() == "first_division") {
+            $("#tab-first").removeClass("has-cgpa");
+            $("#tab-first").addClass("has-division");
+        } else if ($("#results option:selected").val() == "second_division") {
+            $("#tab-first").removeClass("has-cgpa");
+            $("#tab-first").addClass("has-division");
+        } else if ($("#results option:selected").val() == "third_division") {
+            $("#tab-first").removeClass("has-cgpa");
+            $("#tab-first").addClass("has-division");
+        } else {
+            $("#tab-first").removeClass("has-cgpa");
+            $("#tab-first").removeClass("has-division");
+        }
+
+    });
+
+    $("#degree").change(function () {
+        if ($("#degree option:selected").val() == "secondary") {
+            $("#degreeWrapper").removeClass("honors");
+            $("#degreeWrapper").addClass("secondary");
+        } else if ($("#degree option:selected").val() == "higher_secondary") {
+            $("#degreeWrapper").removeClass("honors");
+            $("#degreeWrapper").addClass("secondary");
+        } else if ($("#degree option:selected").val() == "diploma") {
+            $("#degreeWrapper").removeClass("honors");
+            $("#degreeWrapper").addClass("secondary");
+        } else if ($("#degree option:selected").val() == "doctoral") {
+            $("#degreeWrapper").removeClass("honors");
+            $("#degreeWrapper").addClass("secondary");
+        } else {
+            $("#degreeWrapper").removeClass("secondary");
+            $("#degreeWrapper").addClass("honors");
+        }
+    });
+
+    $("#majorGroup").change(function () {
+        if ($("#majorGroup option:selected").val() == "other_major") {
+            $("#specifyMajor").removeClass("no-major");
+            $("#specifyMajor").addClass("has-major");
+        } else {
+            $("#specifyMajor").removeClass("has-major");
+            $("#specifyMajor").addClass("no-major");
+        }
+    });
+
+    $("#otherIns").change(function () {
+        if ($("#otherIns option:selected").val() == "other_inst") {
+            $("#specifyIns").removeClass("no-major");
+            $("#specifyIns").addClass("has-major");
+        } else {
+            $("#specifyIns").removeClass("has-major");
+            $("#specifyIns").addClass("no-major");
+        }
+    });
+
+    $('input[name="daterange"]').daterangepicker();
+
+    $('#enddate').daterangepicker({
+        singleDatePicker: true,
+        showDropdowns: true
+    },
+            function (start, end, label) {
+                var years = moment().diff(start, 'years');
+                //alert("You are " + years + " years old.");
+            });
+    $('#startdate').daterangepicker({
+        singleDatePicker: true,
+        showDropdowns: true
+    },
+            function (start, end, label) {
+                var years = moment().diff(start, 'years');
+                //alert("You are " + years + " years old.");
+            });
+
+    // Division change on load district
+    $('#division').change(function () {
+        $('#district').append('<option value="" selected="selected">Loading...</option>');
+        $('#upazila').append('<option value="" selected="selected">Loading...</option>');
+        var division_id = $('#division').val();
+        $.ajax({
+            type: "POST",
+            url: baseurl + "ajax/getDistrict",
+            data: {division_id: division_id},
+            dataType: "json",
+            success: function (data) {
+                jQuery('#district').empty();
+                jQuery('#upazila').empty();
+                jQuery('#district').append('<option value="" selected="selected">Select District</option>');
+                jQuery('#upazila').append('<option value="" selected="selected">Select Upazila</option>');
+                for (var i = 0; i < data.length; i++) {
+                    jQuery("#district").append('<option value="' + data[i].id + '">' + data[i].name + '</option>');
+                }
+            }
+        });
+    });
+    // distric change on load upazila
+    $('#district').change(function () {
+        $('#upazila').append('<option value="" selected="selected">Loading...</option>');
+        var district_id = $('#district').val();
+        $.ajax({
+            type: "POST",
+            url: baseurl + "ajax/getUpazila",
+            data: {district_id: district_id},
+            dataType: "json",
+            success: function (data) {
+                $('#upazila').empty();
+                $('#upazila').append('<option value="" selected="selected">Select Upazila</option>');
+                for (var i = 0; i < data.length; i++) {
+                    $("#upazila").append('<option value="' + data[i].id + '">' + data[i].name + '</option>');
+                }
+            }
+        });
+    });
+
+
+
+
+});
+
+/******bootstrap section ***/
+$(function () {
+    // modal refrest in every load
+    $('body').on('hidden.bs.modal', '.modal', function () {
+        $(this).removeData('bs.modal');
+    });
+});
+
+
+
